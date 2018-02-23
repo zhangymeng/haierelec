@@ -4,7 +4,7 @@
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
         <wb-resource deploy-path="/" source-path="/src/main/webapp"/>
-        <property name="context-root" value="/maven_yzl"/>
+        <property name="context-root" value="/haierelec"/>
         <property name="java-output-path" value="/haierelec/src/main/webapp/src/main/java"/>
     </wb-module>
 </project-modules>

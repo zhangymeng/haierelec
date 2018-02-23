@@ -3,7 +3,7 @@
   type="WEB"
   name="haierelec"
   id="myeclipse.1519348187195"
-  context-root="/maven_yzl"
+  context-root="/haierelec"
   j2ee-spec="1.7"
   archive="haierelec.war">
   <attributes>

@@ -50,5 +50,5 @@
 	</bean>
 
 	<!-- 引入redis -->
-	<import resource="spring-redis.xml"/>
+<!-- 	<import resource="spring-redis.xml"/> -->
 </beans>  

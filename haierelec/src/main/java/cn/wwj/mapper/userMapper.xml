@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.wwj.dao.UserDao">
+	
+	<resultMap  id="userMap" type="cn.wwj.po.UserInfo">
+		<id column="id" property="id"/>
+		<result column="username" property="username"/>
+		<result column="password" property="password"/>
+		<result column="create_date" property="createDate"/>
+		<result column="role_id" property="roleId"/>
+	</resultMap>
+
+	<select id="getUserByUsername" resultMap="userMap" resultType="cn.wwj.po.UserInfo" parameterType="cn.wwj.vo.IndexVo">
+	  select * from h_user where username=#{username} 
+	  <if test="id!=null" >
+	  	and id!=#{id}
+	  </if>
+	  limit 1
+	</select>
+	
+	<select id="getUserById" resultMap="userMap" resultType="cn.wwj.po.UserInfo" parameterType="java.lang.Integer">
+	  select * from h_user where id=#{id}
+	</select>
+	
+	<update id="edit" parameterType="cn.wwj.vo.IndexVo">
+  	  update h_user 
+  	  <trim prefix="set" suffixOverrides=",">
+	  	<if test="password!=null" >
+	    	password=#{password},
+	    </if>
+	  	<if test="username!=null" >
+	    	username=#{username},
+	    </if>
+	  </trim>
+	  where id=#{id}
+    </update>
+    
+    <select id="findAll" resultMap="userMap" resultType="cn.wwj.po.UserInfo" parameterType="cn.wwj.vo.IndexVo">
+	  select * from h_user where role_id!=1 and is_del=1
+	</select>
+	
+	<delete id="del" parameterType="cn.wwj.vo.IndexVo">
+		 delete from h_user where id=#{id}
+	</delete>
+	
+	<insert id="add" parameterType="cn.wwj.vo.IndexVo" useGeneratedKeys="true" keyProperty="id">
+	  insert into h_user(username,password,create_date,role_id) 
+	  values(#{username},#{password},#{createDate},2)
+	</insert> 
+	
+</mapper>

@@ -232,15 +232,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             	$('#myModal').modal();
             	return;
             }
-                var formData = {
-                    username: $('#username').val(),
-                    password: $('#password').val()
-                };
                 $.ajax({
                     type: 'POST',
                     url: '<%=basePath%>login/login',
-                    contentType: "application/json; charset=utf-8",
-                    data: JSON.stringify(formData),
+                    data: {
+                    	    'username': $('#username').val(),
+                    		'password': $('#password').val(),
+                    },
                     success: function (data) {
                         if (data.result == true) {
                             //location.href = '/system/index/index?portal=${portal}';

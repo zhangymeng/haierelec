@@ -164,7 +164,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                 <span class="fa fa-check-circle"></span> 登录
                             </button>
                             <button type="button" id="reset" class="btn btn-sm btn-danger">
-                                <span class="fa fa-close"></span> 重置
+                                <span class="fa"></span> 注册
                             </button>
                         </div>
                     </div>
@@ -256,6 +256,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         }
 
         $("#reset").on("click", function () {
+        	//注册
             $("#username").val("");
             $("#password").val("");
         });

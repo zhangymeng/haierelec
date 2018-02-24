@@ -81,7 +81,7 @@ public class LoginController {
 		  while(em.hasMoreElements()){
 		   request.getSession().removeAttribute(em.nextElement().toString());
 		}
-        return new ModelAndView("login", model);
+        return new ModelAndView("index", model);
     }
 	
 	

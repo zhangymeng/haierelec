@@ -12,7 +12,28 @@ public class IndexVo {
 	private String oldPassword;
 	
 	private String elecNo;
+	private String supplierNo;
+	private Integer eId;
+	private Integer sId;
 	
+	public Integer geteId() {
+		return eId;
+	}
+	public void seteId(Integer eId) {
+		this.eId = eId;
+	}
+	public Integer getsId() {
+		return sId;
+	}
+	public void setsId(Integer sId) {
+		this.sId = sId;
+	}
+	public String getSupplierNo() {
+		return supplierNo;
+	}
+	public void setSupplierNo(String supplierNo) {
+		this.supplierNo = supplierNo;
+	}
 	public String getElecNo() {
 		return elecNo;
 	}

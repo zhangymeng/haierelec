@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.wwj.dao.OfferDao">
+	
+	<resultMap  id="offerMap" type="cn.wwj.po.Offer">
+		<id column="id" property="id"/>
+		<result column="e_id" property="eId"/>
+		<result column="s_id" property="sId"/>
+		<result column="money" property="money"/>
+		<result column="url" property="url"/>
+	</resultMap>
+
+	<select id="getById" resultMap="offerMap" resultType="cn.wwj.po.Offer" parameterType="java.lang.Integer">
+	  select * from h_offer where id=#{id}
+	</select>
+    
+    <select id="findAll" resultMap="offerMap" resultType="cn.wwj.po.Offer" parameterType="cn.wwj.vo.IndexVo">
+	  select * from h_offer where 1=1
+	  <if test="sId!=null">
+	  and s_id=#{sId}
+	  </if>
+	  <if test="eId!=null">
+	  and e_id=#{eId}
+	  </if>
+	</select>
+	
+	<delete id="del" parameterType="cn.wwj.vo.IndexVo">
+		 delete from h_offer where 1=1
+		 <if test="eId!=null">
+		 and e_id=#{eId}
+		 </if>
+		 <if test="id!=null">
+		 and id=#{id}
+		 </if>
+		 <if test="sId!=null">
+		 and s_id=#{sId}
+		 </if>
+	</delete>
+	
+	<insert id="add" parameterType="cn.wwj.po.Offer" useGeneratedKeys="true" keyProperty="id">
+	  insert into h_offer(money,url,e_id,s_id) 
+	  values(#{money},#{url},#{eId},#{sId})
+	</insert> 
+	
+	<update id="edit" parameterType="cn.wwj.po.Offer">
+  	  update h_offer
+  	  <trim prefix="set" suffixOverrides=",">
+	  	<if test="money!=null" >
+	    	 money=#{money},
+	    </if>
+	  	<if test="url!=null" >
+	    	url=#{url},
+	    </if>
+	  </trim>
+	  where id=#{id}
+    </update>
+	
+</mapper>

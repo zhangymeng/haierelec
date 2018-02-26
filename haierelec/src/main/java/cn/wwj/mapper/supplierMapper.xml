@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.wwj.dao.SupplierDao">
+	
+	<resultMap  id="supplierMap" type="cn.wwj.po.Supplier">
+		<id column="id" property="id"/>
+		<result column="title" property="title"/>
+		<result column="supplier_no" property="supplierNo"/>
+		<result column="url" property="url"/>
+	</resultMap>
+
+	<select id="getById" resultMap="supplierMap" resultType="cn.wwj.po.Supplier" parameterType="java.lang.Integer">
+	  select * from h_supplier where id=#{id}
+	</select>
+    
+    <select id="findAll" resultMap="supplierMap" resultType="cn.wwj.po.Supplier" parameterType="cn.wwj.vo.IndexVo">
+	  select * from h_supplier where 1=1
+	  <if test="supplierNo!=null">
+	  and supplier_no=#{supplierNo}
+	  </if>
+	</select>
+	
+	<delete id="del" parameterType="cn.wwj.vo.IndexVo">
+		 delete from h_supplier where id=#{id}
+	</delete>
+	
+	<insert id="add" parameterType="cn.wwj.po.Supplier" useGeneratedKeys="true" keyProperty="id">
+	  insert into h_supplier(title,supplier_no,url) 
+	  values(#{title},#{supplierNo},#{url})
+	</insert> 
+	
+	<update id="edit" parameterType="cn.wwj.po.Supplier">
+  	  update h_supplier
+  	  <trim prefix="set" suffixOverrides=",">
+	  	<if test="title!=null" >
+	    	 title=#{title},
+	    </if>
+	  	<if test="supplierNo!=null" >
+	    	supplier_no=#{supplierNo},
+	    </if>
+	   	<if test="url!=null" >
+	    	url=#{url},
+	    </if>
+	  </trim>
+	  where id=#{id}
+    </update>
+	
+</mapper>

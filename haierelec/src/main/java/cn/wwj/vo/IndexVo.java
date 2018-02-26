@@ -16,6 +16,14 @@ public class IndexVo {
 	private Integer eId;
 	private Integer sId;
 	
+	private Integer roleId;
+	
+	public Integer getRoleId() {
+		return roleId;
+	}
+	public void setRoleId(Integer roleId) {
+		this.roleId = roleId;
+	}
 	public Integer geteId() {
 		return eId;
 	}

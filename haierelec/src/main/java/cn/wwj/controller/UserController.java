@@ -82,6 +82,7 @@ public class UserController {
 		if(user!=null){
 			model.addAttribute("userInfo", user);
 		}
+		model.addAttribute("roleId", vo.getRoleId());
 	    return new ModelAndView("userPage", model);
 	}
 	

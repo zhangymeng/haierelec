@@ -20,7 +20,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <!-- 头部区域（可配合layui已有的水平导航） -->
     <ul class="layui-nav layui-layout-right">
       <li class="layui-nav-item" style="color:#FF5722;">
-    	${userInfo.username}
+    	<c:choose>
+		   <c:when test="${not empty userInfo.username}">  
+		        ${userInfo.username}
+		   </c:when>
+		   <c:otherwise> 
+		    	${userInfo.name}
+		   </c:otherwise>
+		</c:choose>
       </li>
       <li class="layui-nav-item"><a href="<%=basePath%>/login/logout">注销</a></li>
     </ul>

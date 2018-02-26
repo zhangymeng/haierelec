@@ -11,6 +11,14 @@ public class IndexVo {
 	private String passwords;
 	private String oldPassword;
 	
+	private String elecNo;
+	
+	public String getElecNo() {
+		return elecNo;
+	}
+	public void setElecNo(String elecNo) {
+		this.elecNo = elecNo;
+	}
 	public String getPasswords() {
 		return passwords;
 	}

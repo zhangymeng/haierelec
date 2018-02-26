@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.wwj.dao.ElecDao">
+	
+	<resultMap  id="elecMap" type="cn.wwj.po.Elec">
+		<id column="id" property="id"/>
+		<result column="title" property="title"/>
+		<result column="elec_no" property="elecNo"/>
+		<result column="is_del" property="isDel"/>
+	</resultMap>
+
+	<select id="getById" resultMap="elecMap" resultType="cn.wwj.po.Elec" parameterType="java.lang.Integer">
+	  select * from h_elec where id=#{id}
+	</select>
+    
+    <select id="findAll" resultMap="elecMap" resultType="cn.wwj.po.Elec" parameterType="cn.wwj.vo.IndexVo">
+	  select * from h_elec where is_del=1
+	  <if test="elecNo!=null">
+	  and elec_no=#{elecNo}
+	  </if>
+	</select>
+	
+	<update id="del" parameterType="cn.wwj.vo.IndexVo">
+		 update h_elec set is_del=0 where id=#{id}
+	</update>
+	
+	<insert id="add" parameterType="cn.wwj.po.Elec" useGeneratedKeys="true" keyProperty="id">
+	  insert into h_elec(title,elec_no,is_del) 
+	  values(#{title},#{elecNo},1)
+	</insert> 
+	
+	<update id="edit" parameterType="cn.wwj.po.Elec">
+  	  update h_elec
+  	  <trim prefix="set" suffixOverrides=",">
+	  	<if test="title!=null" >
+	    	 title=#{title},
+	    </if>
+	  	<if test="elecNo!=null" >
+	    	elec_no=#{elecNo},
+	    </if>
+	  </trim>
+	  where id=#{id}
+    </update>
+	
+</mapper>

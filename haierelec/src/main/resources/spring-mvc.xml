@@ -22,7 +22,7 @@
 	<!-- Spring4整合quartz2.2，quartz-scheduler定时任务，Spring定时任务 -->
 <!-- 	<import resource="spring-quartz.xml"/> -->
 	<!-- 默认的注解映射的支持 -->
-	<mvc:annotation-driven />
+	<mvc:annotation-driven/>   
 	<!-- 自动扫描该包，使SpringMVC认为包下用了@controller注解的类是控制器 -->
 	<context:component-scan base-package="cn.wwj.*" />
 	<!-- 定时器开关-->

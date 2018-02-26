@@ -15,5 +15,5 @@ public interface SupplierDao {
 
 	Integer edit(Supplier vo);
 
-	Elec getById(Integer id);
+	Supplier getById(Integer id);
 }

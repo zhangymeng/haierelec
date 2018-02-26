@@ -7,14 +7,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.StringWriter;
+import java.math.BigDecimal;
 import java.net.URLDecoder;
 import java.security.MessageDigest;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -43,7 +42,6 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -712,4 +710,10 @@ public class Tools {
 //        Arrays.sort(dateStr, Collections.reverseOrder());
         return dateStr;
     }  
+    
+    public static double formatDouble(double num){
+    	BigDecimal b = new BigDecimal(num);  
+    	double f1 = b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();  
+    	return f1;
+    }
 }

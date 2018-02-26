@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cn.wwj.dao.ElecDao;
+import cn.wwj.dao.OfferDao;
 import cn.wwj.po.Elec;
 import cn.wwj.util.Tools;
 import cn.wwj.vo.IndexVo;
@@ -15,6 +16,9 @@ import cn.wwj.vo.IndexVo;
 public class ElecServiceImpl implements ElecService {
 	@Autowired
 	private ElecDao elecDao;
+	
+	@Autowired
+	private OfferDao offerDao;
 	
 	@Override
 	public List<Elec> findAll(IndexVo vo) {
@@ -28,6 +32,9 @@ public class ElecServiceImpl implements ElecService {
 		String reason = "";
 		Integer count = elecDao.del(vo);
 		if(count>0){
+			IndexVo inVo = new IndexVo();
+			inVo.seteId(vo.getId());
+			offerDao.del(inVo);
 			result = true;
 		}
 		return Tools.resultMap(result, reason);

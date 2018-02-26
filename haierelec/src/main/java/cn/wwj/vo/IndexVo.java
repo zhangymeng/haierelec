@@ -2,6 +2,8 @@ package cn.wwj.vo;
 
 import java.sql.Timestamp;
 
+import cn.wwj.util.Tools;
+
 public class IndexVo {
 	private Integer id;
 	
@@ -18,6 +20,21 @@ public class IndexVo {
 	
 	private Integer roleId;
 	
+	private double money;
+	private String url;
+	
+	public String getUrl() {
+		return url;
+	}
+	public void setUrl(String url) {
+		this.url = url;
+	}
+	public double getMoney() {
+		return money;
+	}
+	public void setMoney(double money) {
+		this.money = Tools.formatDouble(money);
+	}
 	public Integer getRoleId() {
 		return roleId;
 	}

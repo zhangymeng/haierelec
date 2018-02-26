@@ -6,6 +6,44 @@ public class Offer {
 	private Integer sId;
 	private double money;
 	private String url;
+	
+	private Elec elec;
+	
+	private String eTitle;
+	private String eNo;
+	private String sTitle;
+	private String sNo;
+	
+	public Elec getElec() {
+		return elec;
+	}
+	public void setElec(Elec elec) {
+		this.elec = elec;
+	}
+	public String geteTitle() {
+		return eTitle;
+	}
+	public void seteTitle(String eTitle) {
+		this.eTitle = eTitle;
+	}
+	public String geteNo() {
+		return eNo;
+	}
+	public void seteNo(String eNo) {
+		this.eNo = eNo;
+	}
+	public String getsTitle() {
+		return sTitle;
+	}
+	public void setsTitle(String sTitle) {
+		this.sTitle = sTitle;
+	}
+	public String getsNo() {
+		return sNo;
+	}
+	public void setsNo(String sNo) {
+		this.sNo = sNo;
+	}
 	public Integer getId() {
 		return id;
 	}

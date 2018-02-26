@@ -8,6 +8,11 @@
 		<result column="s_id" property="sId"/>
 		<result column="money" property="money"/>
 		<result column="url" property="url"/>
+		<association  property="elec" javaType="cn.wwj.po.Elec">
+            <id column="id" property="id"/>
+			<result column="title" property="title"/>
+			<result column="elec_no" property="elecNo"/>
+        </association>
 	</resultMap>
 
 	<select id="getById" resultMap="offerMap" resultType="cn.wwj.po.Offer" parameterType="java.lang.Integer">
@@ -15,12 +20,12 @@
 	</select>
     
     <select id="findAll" resultMap="offerMap" resultType="cn.wwj.po.Offer" parameterType="cn.wwj.vo.IndexVo">
-	  select * from h_offer where 1=1
+	  select * from h_offer a left join h_elec b on a.e_id=b.id where 1=1
 	  <if test="sId!=null">
-	  and s_id=#{sId}
+	  and a.s_id=#{sId}
 	  </if>
 	  <if test="eId!=null">
-	  and e_id=#{eId}
+	  and a.e_id=#{eId}
 	  </if>
 	</select>
 	

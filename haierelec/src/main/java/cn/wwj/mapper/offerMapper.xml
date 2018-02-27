@@ -27,6 +27,12 @@
 	  <if test="eId!=null">
 	  and a.e_id=#{eId}
 	  </if>
+	  <if test="title!=null">
+	  and (b.title like concat(concat('%',#{title}),'%')
+	  </if>
+	  <if test="minMoney>0">
+	  and a.money &lt;= #{maxMoney} and a.money &gt;= #{minMoney}
+	  </if>
 	</select>
 	
 	<delete id="del" parameterType="cn.wwj.vo.IndexVo">

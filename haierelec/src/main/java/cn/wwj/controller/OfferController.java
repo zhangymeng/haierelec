@@ -38,6 +38,15 @@ public class OfferController {
 	@ResponseBody
     public Map<String,Object> findAll(HttpServletRequest request,IndexVo vo){
 		Map<String,Object> map = new HashMap<String,Object>();
+		//用户索引
+		if(vo.getTitle()!=null || vo.getMaxMoney()>0 || vo.getMinMoney()>0){
+			UserInfo user = (UserInfo)request.getSession().getAttribute("user");
+			if(user!=null){
+				vo.setUserId(user.getId());
+				vo.setUsername(user.getUsername());
+			}
+		}
+		
 		List<Offer> list = offerService.findAll(vo);
 		map.put("code", 0);
 		map.put("msg", "");
@@ -83,6 +92,6 @@ public class OfferController {
 		if(user!=null){
 			model.addAttribute("userInfo", user);
 		}
-	    return new ModelAndView("uPage", model);
+	    return new ModelAndView("userOffer", model);
 	}
 }

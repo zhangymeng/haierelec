@@ -1,5 +1,6 @@
 package cn.wwj.service;
 
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cn.wwj.dao.ElecDao;
+import cn.wwj.dao.LogDao;
 import cn.wwj.dao.OfferDao;
 import cn.wwj.dao.SupplierDao;
 import cn.wwj.po.Elec;
@@ -28,8 +30,21 @@ public class OfferServiceImpl implements OfferService {
 	@Autowired
 	private SupplierDao supplierDao;
 	
+	@Autowired
+	private LogDao logDao;
+	
 	@Override
 	public List<Offer> findAll(IndexVo vo) {
+		//索引的数据加入log
+		if(vo.getTitle()!=null || vo.getMaxMoney()>0 || vo.getMinMoney()>0){
+			if(vo.getTitle().equals("")){
+				vo.setTitle(null);
+			}
+			Timestamp createDate = new Timestamp(System.currentTimeMillis());//当前时间
+			vo.setCreateDate(createDate);
+			logDao.add(vo);
+		}
+		
 		List<Offer> list = offerDao.findAll(vo);
 		for(Offer o:list){
 			Supplier s = supplierDao.getById(o.getsId());

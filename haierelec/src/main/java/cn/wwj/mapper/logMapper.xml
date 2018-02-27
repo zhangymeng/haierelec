@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.wwj.dao.LogDao">
+	
+	<resultMap  id="logMap" type="cn.wwj.po.LogInfo">
+		<id column="id" property="id"/>
+		<result column="title" property="title"/>
+		<result column="minMoney" property="minMoney"/>
+		<result column="maxMoney" property="maxMoney"/>
+		<result column="user_id" property="userId"/>
+		<result column="username" property="username"/>
+		<result column="create_date" property="createDate"/>
+		<association  property="user" javaType="cn.wwj.po.UserInfo">
+            <id column="id" property="id"/>
+        </association>
+	</resultMap>
+    
+    <select id="findAll" resultMap="logMap" resultType="cn.wwj.po.LogInfo" parameterType="cn.wwj.vo.IndexVo">
+	  select * from h_log a left join h_user b on a.user_id=b.id where 1=1
+	</select>
+	
+	<delete id="del" parameterType="cn.wwj.vo.IndexVo">
+		 delete from h_log where id=#{id}
+	</delete>
+	
+	<insert id="add" parameterType="cn.wwj.vo.IndexVo" useGeneratedKeys="true" keyProperty="id">
+	  insert into h_log(title,minMoney,maxMoney,user_id,username,create_date) 
+	  values(#{title},#{minMoney},#{maxMoney},#{userId},#{username},#{createDate})
+	</insert> 
+	
+</mapper>

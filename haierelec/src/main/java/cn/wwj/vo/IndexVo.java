@@ -23,6 +23,35 @@ public class IndexVo {
 	private double money;
 	private String url;
 	
+	private String title;
+	private double minMoney;
+	private double maxMoney;
+	private Integer userId;
+	
+	public Integer getUserId() {
+		return userId;
+	}
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	public double getMinMoney() {
+		return minMoney;
+	}
+	public void setMinMoney(double minMoney) {
+		this.minMoney = Tools.formatDouble(minMoney);
+	}
+	public double getMaxMoney() {
+		return maxMoney;
+	}
+	public void setMaxMoney(double maxMoney) {
+		this.maxMoney = Tools.formatDouble(maxMoney);
+	}
 	public String getUrl() {
 		return url;
 	}

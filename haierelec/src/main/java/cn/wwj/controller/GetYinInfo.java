@@ -6,6 +6,7 @@ import java.net.URISyntaxException;
 import java.sql.Timestamp;
 import java.util.List;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import org.apache.http.HttpEntity;
@@ -63,24 +64,40 @@ public class GetYinInfo {
 	    IndexVo vo = new IndexVo();
     	List<Offer> list = offerService.findAll(vo);
     	for(Offer o:list){
+    		
+			vo.setOfferId(o.getId());
+			vo.setCreateDate(createDate);
+    		
     		String eNo = o.geteNo();
     		String sUrl = o.getsUrlStr();
     		String urlStr = sUrl.replace("ELECNO", eNo);
-    	
+    		
     		String json;
 
 			try {
 				json = httpGet(urlStr,"utf-8");
-				String jsonStr = json.substring(10,json.length()-3); 
-				
-				JSONObject jsonRes = JSONObject.fromObject(jsonStr);
-				if(jsonRes.has("p")){
-					//插入报价
-					vo.setMoney(jsonRes.getDouble("p"));
-					vo.setOfferId(o.getId());
-					vo.setCreateDate(createDate);
-					offerService.addStatistical(vo);
-				}
+
+	    		if(o.getsId()==1){
+	    			//京东
+					String jsonStr = json.substring(11,json.length()-4); 
+					
+					JSONObject jsonRes = JSONObject.fromObject(jsonStr);
+					
+					if(jsonRes.has("p")){
+						//插入报价
+						vo.setMoney(jsonRes.getDouble("p"));
+						offerService.addStatistical(vo);
+					}
+					
+	    		}else if(o.getsId()==3){
+	    			//苏宁
+	    			String jsonStr = json.substring(7,json.length()-2); 
+	    			JSONObject jsonRes = JSONObject.fromObject(jsonStr);
+	    			JSONArray saleInfo = jsonRes.getJSONObject("data").getJSONObject("price").getJSONArray("saleInfo");
+	    			double money = saleInfo.getJSONObject(0).getDouble("netPrice");
+	    			vo.setMoney(money);
+	    		}
+
 				
 			} catch (HttpException e) {
 				// TODO Auto-generated catch block

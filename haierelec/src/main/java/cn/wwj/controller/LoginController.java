@@ -47,6 +47,13 @@ public class LoginController {
 		 return map;
     }
 	
+	
+	@RequestMapping("/regist")
+    public ModelAndView regist(HttpServletRequest request){
+		ModelMap model = new ModelMap();
+        return new ModelAndView("regist", model);
+    }
+	
 	/**
 	 * 登录后主页面
 	 * @param vo

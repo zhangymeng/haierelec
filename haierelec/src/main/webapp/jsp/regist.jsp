@@ -69,7 +69,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         .login-content {
             border-bottom-left-radius: 8px;
             border-bottom-right-radius: 8px;
-            height: 250px;
+            height: 320px;
             width: 100%;
             max-width: 500px;
             background-color: rgba(255, 250, 2550, .6);
@@ -132,7 +132,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <div class="box">
     <div class="login-box">
         <div class="login-title text-center">
-            <span class="flag"><i class="fa fa-user"></i> 用户登陆</span>
+            <span class="flag"><i class="fa fa-user"></i> 用户注册</span>
             <h1>
                 <small>欢迎使用海尔电器比价系统</small>
             </h1>
@@ -158,13 +158,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                             </div>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <div class="col-xs-10 col-xs-offset-1">
+                            <div class="input-group">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+                                <input type="password" id="passwords" name="passwords" class="form-control"
+                                       placeholder="再输一次密码">
+                            </div>
+                        </div>
+                    </div>
                     <div class="form-group form-actions">
                         <div class="col-xs-12 text-center">
                             <button type="button" id="login" class="btn btn-sm btn-success">
-                                <span class="fa fa-check-circle"></span> 登录
-                            </button>
-                            <button type="button" id="reset" class="btn btn-sm btn-danger">
-                                <span class="fa"></span> 注册
+                                <span class="fa fa-check-circle"></span> 确认注册
                             </button>
                         </div>
                     </div>
@@ -178,7 +184,27 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
             <div class="modal-body">
-                <span class="text-danger"><i class="fa fa-warning"></i> 用户名或密码错误，请重试！</span>
+                <span class="text-danger"><i class="fa fa-warning"></i> 用户名已存在</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="myModals" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <span class="text-danger"><i class="fa fa-warning"></i> 两次密码不同，请重新输入</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="textLog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <span class="text-danger"><i class="fa fa-warning"></i>文本框不能为空</span>
             </div>
         </div>
     </div>
@@ -228,24 +254,29 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             ) {
                 alert("您的浏览器版本过低，请使用360安全浏览器的极速模式或IE9.0以上版本的浏览器");
             } else {
-            if($('#username').val() == null || $('#username').val()=="" || $('#password').val() == null || $('#password').val()== ""){
-            	$('#myModal').modal();
+            if($('#username').val() == null || $('#username').val()=="" || $('#password').val() == null || $('#password').val()== ""
+            	|| $('#passwords').val() == null || $('#passwords').val()==""){
+            	$('#textLog').modal();
+            	return;
+            }
+            if($('#passwords').val() != $('#password').val()){
+                $('#myModals').modal();
             	return;
             }
                 $.ajax({
                     type: 'POST',
-                    url: '<%=basePath%>login/login',
+                    url: '<%=basePath%>user/add',
                     data: {
                     	    'username': $('#username').val(),
                     		'password': $('#password').val(),
+                    		'roleId':3,
                     },
                     success: function (data) {
                         if (data.result == true) {
                             //location.href = '/system/index/index?portal=${portal}';
-                            location.href = '<%=basePath%>login/index';
+                            location.href = '<%=basePath%>';
                         } else {
                             $('#myModal').modal();
-                            //alert("用户名或密码错误！");
                         }
                     },
                     error: function () {
@@ -257,7 +288,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
         $("#reset").on("click", function () {
         	//注册
-			location.href = '<%=basePath%>login/regist';
+            $("#username").val("");
+            $("#password").val("");
         });
     });
 </script>

@@ -28,6 +28,14 @@ public class IndexVo {
 	private double maxMoney;
 	private Integer userId;
 	
+	private Integer offerId;
+	
+	public Integer getOfferId() {
+		return offerId;
+	}
+	public void setOfferId(Integer offerId) {
+		this.offerId = offerId;
+	}
 	public Integer getUserId() {
 		return userId;
 	}

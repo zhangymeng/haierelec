@@ -46,19 +46,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     </div>
   </div>
   
-  <div class="layui-form-item">
+<!--   <div class="layui-form-item">
     <div class="layui-inline">
       <label class="layui-form-label">报价</label>
       <div class="layui-input-inline">
         <input type="text" id="money" name="money" lay-verify="required|number" autocomplete="off" class="layui-input">
       </div>
     </div>
-  </div>
+  </div> -->
   
   <div class="layui-form-item">
-    <label class="layui-form-label">网址</label>
+    <label class="layui-form-label">浏览网址</label>
     <div class="layui-input-block">
-      <input type="text" id="url" name="url" lay-verify="required" autocomplete="off" placeholder="请输入网址" class="layui-input" style="width:70%;">
+      <input type="text" id="url" name="url" lay-verify="required" autocomplete="off" placeholder="请输入浏览网址" class="layui-input" style="width:70%;">
     </div>
   </div>
   
@@ -89,13 +89,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       <th lay-data="{field:'eNo', width:150}">电器编号</th>
       <th lay-data="{field:'sTitle', width:200}">供应商</th>
       <th lay-data="{field:'sNo', width:150}">供应商编号</th>
-      <th lay-data="{field:'money', width:150}">报价</th>
+<!--       <th lay-data="{field:'money', width:150}">报价</th> -->
       <th lay-data="{fixed: 'right', align:'center', toolbar: '#barDemo'}">操作</th>
     </tr>
   </thead>
 </table>
  </div>
 <script type="text/html" id="barDemo">
+  <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="show">查看报价统计图</a>
   <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">打开网页查看详情</a>
   <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
   <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
@@ -157,12 +158,14 @@ layui.use(['table', 'form'],function(){
 	      });
 	      document.getElementById("supplierNo").value=data.sNo;
 	      document.getElementById("elecNo").value=data.eNo;
-	      document.getElementById("money").value=data.money;
-	      document.getElementById("url").value=data.url;
+/* 	      document.getElementById("money").value=data.money;
+ */	      document.getElementById("url").value=data.url;
 	      document.getElementById("supplierNo").disabled="disabled";
 	      document.getElementById("elecNo").disabled="disabled";
 	      form.render();  
 	      id = data.id;
+    }else if(obj.event === 'show'){
+    	window.location.href = "<%=basePath%>offer/statisticalPage?offerId="+data.id;
     }
   });
   
@@ -183,7 +186,6 @@ form.verify({
 form.on('submit(demo1)', function(data){
 	var supplierNo = data.field.supplierNo;
 	var elecNo = data.field.elecNo;
-	var money = data.field.money;
 	var url = data.field.url;
 	if(id==null){
 		$.ajax({
@@ -191,7 +193,6 @@ form.on('submit(demo1)', function(data){
 	        data: {
 	        	"supplierNo":supplierNo,
 	            "elecNo" : elecNo,
-	            "money" : money,
 	            "url" : url,
 	        },
 	        success: function (data) {

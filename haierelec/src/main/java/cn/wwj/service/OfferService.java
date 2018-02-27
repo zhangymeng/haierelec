@@ -16,4 +16,6 @@ public interface OfferService {
 	Map<String, Object> edit(Offer vo);
 
 	Map<String, String> getES(IndexVo vo);
+
+	Integer addStatistical(IndexVo vo);
 }

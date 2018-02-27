@@ -94,4 +94,15 @@ public class OfferController {
 		}
 	    return new ModelAndView("userOffer", model);
 	}
+	
+	
+	@RequestMapping("/statisticalPage")
+	public ModelAndView statisticalPage(HttpServletRequest request,IndexVo vo){
+	    ModelMap model = new ModelMap();
+	    model.addAttribute("offerId", vo.getOfferId());
+	    return new ModelAndView("statistical", model);
+	}
+	
+
+	
 }

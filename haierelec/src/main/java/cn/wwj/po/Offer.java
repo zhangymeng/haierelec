@@ -13,7 +13,14 @@ public class Offer {
 	private String eNo;
 	private String sTitle;
 	private String sNo;
+	private String sUrlStr;
 	
+	public String getsUrlStr() {
+		return sUrlStr;
+	}
+	public void setsUrlStr(String sUrlStr) {
+		this.sUrlStr = sUrlStr;
+	}
 	public Elec getElec() {
 		return elec;
 	}

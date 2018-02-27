@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import cn.wwj.dao.ElecDao;
 import cn.wwj.dao.LogDao;
 import cn.wwj.dao.OfferDao;
+import cn.wwj.dao.StatisticalDao;
 import cn.wwj.dao.SupplierDao;
 import cn.wwj.po.Elec;
 import cn.wwj.po.Offer;
@@ -33,6 +34,9 @@ public class OfferServiceImpl implements OfferService {
 	@Autowired
 	private LogDao logDao;
 	
+	@Autowired
+	private StatisticalDao statisticalDao;
+	
 	@Override
 	public List<Offer> findAll(IndexVo vo) {
 		//索引的数据加入log
@@ -50,6 +54,8 @@ public class OfferServiceImpl implements OfferService {
 			Supplier s = supplierDao.getById(o.getsId());
 			o.setsTitle(s.getTitle());
 			o.setsNo(s.getSupplierNo());
+			o.setsUrlStr(s.getUrl());
+			
 			o.seteTitle(o.getElec().getTitle());
 			o.seteNo(o.getElec().getElecNo());
 		}
@@ -63,6 +69,8 @@ public class OfferServiceImpl implements OfferService {
 		Integer count = offerDao.del(vo);
 		if(count>0){
 			result = true;
+			vo.setOfferId(vo.getId());
+			statisticalDao.del(vo);
 		}
 		return Tools.resultMap(result, reason);
 	}
@@ -138,5 +146,11 @@ public class OfferServiceImpl implements OfferService {
 			map.put("eTitle", "");
 		}
 		return map;
+	}
+
+	@Override
+	public Integer addStatistical(IndexVo vo) {
+		Integer count = statisticalDao.add(vo);
+		return count;
 	}
 }

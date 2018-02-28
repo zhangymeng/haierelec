@@ -58,7 +58,7 @@ public class GetYinInfo {
     		}
 
     
-    @Scheduled(cron = "0/10 * * * * ?")//每隔5秒隔行一次 
+    @Scheduled(cron = "0 0/2 * * * ? ")//每隔2分钟隔行一次 
     public void myClock(){
 		Timestamp createDate = new Timestamp(System.currentTimeMillis());//当前时间
 	    IndexVo vo = new IndexVo();
@@ -68,37 +68,27 @@ public class GetYinInfo {
 			vo.setOfferId(o.getId());
 			vo.setCreateDate(createDate);
     		
-    		String eNo = o.geteNo();
+    		String eNo = o.getNumber();
     		String sUrl = o.getsUrlStr();
     		String urlStr = sUrl.replace("ELECNO", eNo);
     		
     		String json;
-
+    		
+    		Offer oVo = new Offer();
+    		
 			try {
 				json = httpGet(urlStr,"utf-8");
-
-	    		if(o.getsId()==1){
-	    			//京东
-					String jsonStr = json.substring(11,json.length()-4); 
-					
-					JSONObject jsonRes = JSONObject.fromObject(jsonStr);
-					
-					if(jsonRes.has("p")){
-						//插入报价
-						vo.setMoney(jsonRes.getDouble("p"));
-						offerService.addStatistical(vo);
-					}
-					
-	    		}else if(o.getsId()==3){
-	    			//苏宁
-	    			String jsonStr = json.substring(7,json.length()-2); 
-	    			JSONObject jsonRes = JSONObject.fromObject(jsonStr);
-	    			JSONArray saleInfo = jsonRes.getJSONObject("data").getJSONObject("price").getJSONArray("saleInfo");
-	    			double money = saleInfo.getJSONObject(0).getDouble("netPrice");
-	    			vo.setMoney(money);
+				double money = getMoneyByJson(json,o.getsId());
+				vo.setMoney(money);
+	    		Integer count = offerService.addStatistical(vo);
+	    		if(count>0){
+	    			
+	    			oVo.setId(o.getId());
+	    			oVo.setMoney(money);
+	    			offerService.editMoney(oVo);
 	    		}
-
-				
+	    		
+	    		
 			} catch (HttpException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -109,6 +99,29 @@ public class GetYinInfo {
 
     	}
     	
+    }
+    
+    public static double getMoneyByJson(String json,int sId){
+    	double money = 0.0;
+		if(sId==1){
+			//京东
+			String jsonStr = json.substring(11,json.length()-4); 
+			
+			JSONObject jsonRes = JSONObject.fromObject(jsonStr);
+			
+			if(jsonRes.has("p")){
+				//插入报价
+				money = jsonRes.getDouble("p");
+			}
+			
+		}else if(sId==3){
+			//苏宁
+			String jsonStr = json.substring(7,json.length()-2); 
+			JSONObject jsonRes = JSONObject.fromObject(jsonStr);
+			JSONArray saleInfo = jsonRes.getJSONObject("data").getJSONObject("price").getJSONArray("saleInfo");
+			money = saleInfo.getJSONObject(0).getDouble("netPrice");
+		}
+		return money;
     }
 
 }

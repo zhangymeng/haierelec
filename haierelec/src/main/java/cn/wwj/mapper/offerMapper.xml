@@ -6,6 +6,7 @@
 		<id column="id" property="id"/>
 		<result column="e_id" property="eId"/>
 		<result column="s_id" property="sId"/>
+		<result column="number" property="number"/>
 		<result column="money" property="money"/>
 		<result column="url" property="url"/>
 		<association  property="elec" javaType="cn.wwj.po.Elec">
@@ -49,14 +50,17 @@
 	</delete>
 	
 	<insert id="add" parameterType="cn.wwj.po.Offer" useGeneratedKeys="true" keyProperty="id">
-	  insert into h_offer(money,url,e_id,s_id) 
-	  values(#{money},#{url},#{eId},#{sId})
+	  insert into h_offer(money,number,url,e_id,s_id) 
+	  values(#{money},#{number},#{url},#{eId},#{sId})
 	</insert> 
 	
 	<update id="edit" parameterType="cn.wwj.po.Offer">
   	  update h_offer
   	  <trim prefix="set" suffixOverrides=",">
-	  	<if test="money!=null" >
+	  	<if test="number!=null" >
+	    	 number=#{number},
+	    </if>
+	    <if test="money!=null" >
 	    	 money=#{money},
 	    </if>
 	  	<if test="url!=null" >

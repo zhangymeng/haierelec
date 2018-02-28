@@ -5,6 +5,7 @@ public class Offer {
 	private Integer eId;
 	private Integer sId;
 	private double money;
+	private String number;
 	private String url;
 	
 	private Elec elec;
@@ -15,6 +16,12 @@ public class Offer {
 	private String sNo;
 	private String sUrlStr;
 	
+	public double getMoney() {
+		return money;
+	}
+	public void setMoney(double money) {
+		this.money = money;
+	}
 	public String getsUrlStr() {
 		return sUrlStr;
 	}
@@ -69,17 +76,17 @@ public class Offer {
 	public void setsId(Integer sId) {
 		this.sId = sId;
 	}
-	public double getMoney() {
-		return money;
-	}
-	public void setMoney(double money) {
-		this.money = money;
-	}
 	public String getUrl() {
 		return url;
 	}
 	public void setUrl(String url) {
 		this.url = url;
+	}
+	public String getNumber() {
+		return number;
+	}
+	public void setNumber(String number) {
+		this.number = number;
 	}
 	
 }

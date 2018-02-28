@@ -54,6 +54,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       </div>
     </div>
   </div> -->
+  <div class="layui-form-item">
+    <label class="layui-form-label">请求编号</label>
+    <div class="layui-input-block">
+      <input type="text" id="number" name="number" lay-verify="required" autocomplete="off" placeholder="请输入请求编号（请参考说明）" class="layui-input" style="width:70%;">
+    </div>
+  </div>
+  
   
   <div class="layui-form-item">
     <label class="layui-form-label">浏览网址</label>
@@ -85,18 +92,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <tr>
      <!--  <th lay-data="{type:'checkbox', fixed: 'left'}"></th> -->
       <th lay-data="{field:'id', width:60, sort: true, fixed: true}">ID</th>
-      <th lay-data="{field:'eTitle', width:200}">电器</th>
-      <th lay-data="{field:'eNo', width:150}">电器编号</th>
-      <th lay-data="{field:'sTitle', width:200}">供应商</th>
-      <th lay-data="{field:'sNo', width:150}">供应商编号</th>
-<!--       <th lay-data="{field:'money', width:150}">报价</th> -->
+      <th lay-data="{field:'eTitle', width:400}">电器</th>
+      <th lay-data="{field:'eNo', width:130}">电器编号</th>
+      <th lay-data="{field:'sTitle', width:100}">供应商</th>
+      <th lay-data="{field:'sNo', width:130}">供应商编号</th>
+      <th lay-data="{field:'money', width:90}">当前价格</th> 
+      <th lay-data="{field:'number', width:130}">请求编号</th> 
       <th lay-data="{fixed: 'right', align:'center', toolbar: '#barDemo'}">操作</th>
     </tr>
   </thead>
 </table>
  </div>
 <script type="text/html" id="barDemo">
-  <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="show">查看报价统计图</a>
   <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">打开网页查看详情</a>
   <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
   <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
@@ -156,16 +163,15 @@ layui.use(['table', 'form'],function(){
 	           window.location.reload();
 	          }
 	      });
+	      $('#stuDesc').html("");
 	      document.getElementById("supplierNo").value=data.sNo;
 	      document.getElementById("elecNo").value=data.eNo;
-/* 	      document.getElementById("money").value=data.money;
- */	      document.getElementById("url").value=data.url;
+ 	      document.getElementById("number").value=data.number;
+ 	      document.getElementById("url").value=data.url;
 	      document.getElementById("supplierNo").disabled="disabled";
 	      document.getElementById("elecNo").disabled="disabled";
 	      form.render();  
 	      id = data.id;
-    }else if(obj.event === 'show'){
-    	window.location.href = "<%=basePath%>offer/statisticalPage?offerId="+data.id;
     }
   });
   
@@ -187,12 +193,14 @@ form.on('submit(demo1)', function(data){
 	var supplierNo = data.field.supplierNo;
 	var elecNo = data.field.elecNo;
 	var url = data.field.url;
+	var number = data.field.number;
 	if(id==null){
 		$.ajax({
 			url: "<%=basePath%>offer/add",
 	        data: {
 	        	"supplierNo":supplierNo,
 	            "elecNo" : elecNo,
+	            "number" : number,
 	            "url" : url,
 	        },
 	        success: function (data) {
@@ -214,7 +222,7 @@ form.on('submit(demo1)', function(data){
 			url: "<%=basePath%>offer/add",
 	        data: {
 	        	"id":id,
-	            "money" : money,
+	            "number" : number,
 	            "url" : url,
 	        },
 	        success: function (data) {

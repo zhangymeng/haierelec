@@ -1,13 +1,16 @@
 package cn.wwj.service;
 
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.http.HttpException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import cn.wwj.controller.GetYinInfo;
 import cn.wwj.dao.ElecDao;
 import cn.wwj.dao.LogDao;
 import cn.wwj.dao.OfferDao;
@@ -80,7 +83,7 @@ public class OfferServiceImpl implements OfferService {
 		boolean result = false;
 		String reason = "";
 		Offer offer = new Offer();
-		offer.setMoney(vo.getMoney());
+		offer.setNumber(vo.getNumber());
 		offer.setUrl(vo.getUrl());
 		List<Elec> elist = elecDao.findAll(vo);
 		if(elist.size()>0){
@@ -95,8 +98,29 @@ public class OfferServiceImpl implements OfferService {
 				if(list.size()>0){
 					reason = "该报价已存在";
 				}else{
-					offerDao.add(offer);
-					result = true;
+					//查询报价
+					String sUrl = slist.get(0).getUrl();
+					String urlStr = sUrl.replace("ELECNO", vo.getNumber());
+					
+					try {
+						String json = GetYinInfo.httpGet(urlStr, "utf-8");
+						double money = GetYinInfo.getMoneyByJson(json,slist.get(0).getId());
+						offer.setMoney(money);
+						
+						offerDao.add(offer);
+						result = true;
+						
+					} catch (HttpException e) {
+						// TODO Auto-generated catch block
+						System.out.println(slist.get(0).getTitle()+"--"+"获取报价失败");
+						reason = "获取报价失败";
+						e.printStackTrace();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						System.out.println(slist.get(0).getTitle()+"--"+"获取报价失败");
+						reason = "获取报价失败";
+						e.printStackTrace();
+					}
 				}
 			}else{
 				reason = "供应商编号不存在";
@@ -113,17 +137,30 @@ public class OfferServiceImpl implements OfferService {
 	public Map<String, Object> edit(Offer vo) {
 		boolean result = false;
 		String reason = "";
-		//正在使用不能修改
-		//重复
-		IndexVo inVo = new IndexVo();
-		inVo.seteId(vo.geteId());
-		inVo.setsId(vo.getsId());
-		List<Offer> list = offerDao.findAll(inVo);
-		if(list.size()>0 && list.get(0).getId()!=vo.getId()){
-			reason = "该报价已存在";
-		}else{
+		Offer o = offerDao.getById(vo.getId());
+		Supplier s = supplierDao.getById(o.getsId());
+		
+		String sUrl = s.getUrl();
+		String urlStr = sUrl.replace("ELECNO", vo.getNumber());
+		
+		try {
+			String json = GetYinInfo.httpGet(urlStr, "utf-8");
+			double money = GetYinInfo.getMoneyByJson(json,s.getId());
+			vo.setMoney(money);
+			
 			offerDao.edit(vo);
 			result = true;
+			
+		} catch (HttpException e) {
+			// TODO Auto-generated catch block
+			System.out.println(s.getTitle()+"--"+"获取报价失败");
+			reason = "获取报价失败";
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			System.out.println(s.getTitle()+"--"+"获取报价失败");
+			reason = "获取报价失败";
+			e.printStackTrace();
 		}
 		return Tools.resultMap(result, reason);
 	}
@@ -153,4 +190,12 @@ public class OfferServiceImpl implements OfferService {
 		Integer count = statisticalDao.add(vo);
 		return count;
 	}
+
+	@Override
+	public Integer editMoney(Offer vo) {
+		Integer count = offerDao.edit(vo);
+		return count;
+	}
+	
+	
 }

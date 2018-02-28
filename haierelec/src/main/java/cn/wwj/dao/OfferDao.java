@@ -15,5 +15,5 @@ public interface OfferDao {
 
 	Integer edit(Offer vo);
 
-	Elec getById(Integer id);
+	Offer getById(Integer id);
 }

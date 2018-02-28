@@ -20,4 +20,6 @@ public interface OfferService {
 	Integer addStatistical(IndexVo vo);
 
 	Integer editMoney(Offer vo);
+
+	String allStatistical(IndexVo vo);
 }

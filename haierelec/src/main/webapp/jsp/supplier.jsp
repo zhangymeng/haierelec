@@ -47,7 +47,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </div>
   
   <div class="layui-form-item">
-    <label class="layui-form-label">访问网址</label>
+    <label class="layui-form-label">请求网址</label>
     <div class="layui-input-block">
       <input type="text" id="url" name="url" lay-verify="required" autocomplete="off" placeholder="请输入供应商网址" class="layui-input" style="width:90%;">
     </div>
@@ -75,16 +75,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <tr>
      <!--  <th lay-data="{type:'checkbox', fixed: 'left'}"></th> -->
       <th lay-data="{field:'id', width:60, sort: true, fixed: true}">ID</th>
-      <th lay-data="{field:'title', width:300}">名称</th>
-      <th lay-data="{field:'supplierNo', width:200}">编号</th>
-      <th lay-data="{field:'url', width:400}">网址</th>
+      <th lay-data="{field:'title', width:120}">名称</th>
+      <th lay-data="{field:'supplierNo', width:120}">编号</th>
+      <th lay-data="{field:'url', width:800}">请求地址</th>
       <th lay-data="{fixed: 'right', align:'center', toolbar: '#barDemo'}">操作</th>
     </tr>
   </thead>
 </table>
  </div>
 <script type="text/html" id="barDemo">
-  <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">打开网址</a>
   <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
   <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
@@ -105,7 +104,7 @@ layui.use(['table', 'form'],function(){
   table.on('tool(demo)', function(obj){
     var data = obj.data;
     if(obj.event === 'detail'){
-    	window.open(data.url);  
+    	//window.open(data.url); 
     } else if(obj.event === 'del'){
     //删除操作
       layer.confirm('真的删除行么', function(index){

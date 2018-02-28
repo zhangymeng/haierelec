@@ -9,7 +9,14 @@ public class Statistical {
 	private Integer offerId;
 	private double money;
 	private String createDate;
+	private Offer offer;
 	
+	public Offer getOffer() {
+		return offer;
+	}
+	public void setOffer(Offer offer) {
+		this.offer = offer;
+	}
 	public Integer getId() {
 		return id;
 	}

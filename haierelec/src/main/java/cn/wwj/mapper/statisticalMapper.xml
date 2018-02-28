@@ -7,11 +7,25 @@
 		<result column="offer_id" property="offerId"/>
 		<result column="money" property="money"/>
 		<result column="create_date" property="createDate"/>
+		<association  property="offer" javaType="cn.wwj.po.Offer">
+            <id column="id" property="id"/>
+			<result column="e_id" property="eId"/>
+			<result column="s_id" property="sId"/>
+			<result column="number" property="number"/>
+			<result column="money" property="money"/>
+			<result column="url" property="url"/>
+        </association>
 	</resultMap>
     
     <select id="findAll" resultMap="statisticalMap" resultType="cn.wwj.po.Statistical" parameterType="cn.wwj.vo.IndexVo">
-	  select * from h_statistical
+	  select * from h_statistical a left join h_offer b on a.offer_id=b.id where b.e_id=#{eId}
 	</select>
+	
+	<select id="findDate"  resultType="java.lang.String" parameterType="cn.wwj.vo.IndexVo">
+	SELECT DISTINCT create_date FROM h_statistical a left join h_offer b on a.offer_id=b.id WHERE b.e_id=#{eId} order by create_date 
+	</select>
+	
+	
 	
 	<delete id="del" parameterType="cn.wwj.vo.IndexVo">
 		 delete from h_statistical where offer_id=#{offerId}

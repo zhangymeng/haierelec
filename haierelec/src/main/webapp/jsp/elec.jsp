@@ -68,7 +68,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <tr>
      <!--  <th lay-data="{type:'checkbox', fixed: 'left'}"></th> -->
       <th lay-data="{field:'id', width:60, sort: true, fixed: true}">ID</th>
-      <th lay-data="{field:'title', width:500}">描述</th>
+      <th lay-data="{field:'title', width:700}">描述</th>
       <th lay-data="{field:'elecNo', width:200}">编号</th>
       <th lay-data="{fixed: 'right', align:'center', toolbar: '#barDemo'}">操作</th>
     </tr>
@@ -76,6 +76,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </table>
  </div>
 <script type="text/html" id="barDemo">
+  <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">价格统计图</a>
   <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
   <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
@@ -96,6 +97,20 @@ layui.use(['table', 'form'],function(){
   table.on('tool(demo)', function(obj){
     var data = obj.data;
     if(obj.event === 'detail'){
+    	$.ajax({
+			url: "<%=basePath%>/offer/countPrice",
+            data: {
+                  "eId" : JSON.stringify(data.id)
+              },
+            success: function (aa) {
+              	//var dataobj = typeof data === "object" ? data : eval("(" + data + ")");
+				if(aa.result==true){
+					window.location.href = "<%=basePath%>offer/statisticalPage?eId="+data.id;
+				}else{
+					layer.msg(aa.reason);
+				}
+              }
+         });
     } else if(obj.event === 'del'){
     //删除操作
       layer.confirm('真的删除行么', function(index){

@@ -58,7 +58,7 @@ public class GetYinInfo {
     		}
 
     
-    @Scheduled(cron = "0 0/2 * * * ? ")//每隔2分钟隔行一次 
+    @Scheduled(cron = "0 0/10 * * * ? ")//每隔2分钟隔行一次 
     public void myClock(){
 		Timestamp createDate = new Timestamp(System.currentTimeMillis());//当前时间
 	    IndexVo vo = new IndexVo();
@@ -120,6 +120,12 @@ public class GetYinInfo {
 			JSONObject jsonRes = JSONObject.fromObject(jsonStr);
 			JSONArray saleInfo = jsonRes.getJSONObject("data").getJSONObject("price").getJSONArray("saleInfo");
 			money = saleInfo.getJSONObject(0).getDouble("netPrice");
+			
+		}else if(sId==2){
+			//国美
+			String jsonStr = json.substring(10,json.length()-1); 
+			JSONObject jsonRes = JSONObject.fromObject(jsonStr);
+			money = jsonRes.getJSONObject("result").getJSONObject("gomePrice").getDouble("salePrice");
 		}
 		return money;
     }

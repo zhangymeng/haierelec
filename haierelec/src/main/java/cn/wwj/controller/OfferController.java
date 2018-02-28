@@ -1,5 +1,6 @@
 package cn.wwj.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import cn.wwj.po.Offer;
 import cn.wwj.po.UserInfo;
 import cn.wwj.service.OfferService;
+import cn.wwj.util.Tools;
 import cn.wwj.vo.IndexVo;
 
 @Controller
@@ -99,10 +101,24 @@ public class OfferController {
 	@RequestMapping("/statisticalPage")
 	public ModelAndView statisticalPage(HttpServletRequest request,IndexVo vo){
 	    ModelMap model = new ModelMap();
-	    model.addAttribute("offerId", vo.getOfferId());
+	    model.addAttribute("eId", vo.geteId());
+
+	    String list = offerService.allStatistical(vo);
+	    model.addAttribute("list", list);
 	    return new ModelAndView("statistical", model);
 	}
 	
-
+	@RequestMapping("/countPrice")
+	@ResponseBody
+	public Map<String,Object> countPrice(IndexVo vo){
+		Map<String,Object> map = new HashMap<String,Object>();
+		List<Offer> list = offerService.findAll(vo);
+		if(list.size()>0){
+			map = Tools.resultMap(true, "");
+		}else{
+			map = Tools.resultMap(false, "暂无报价，请先在报价管理中添加");
+		}
+		return map;
+	}
 	
 }

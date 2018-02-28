@@ -2,9 +2,12 @@ package cn.wwj.service;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import net.sf.json.JSONArray;
 
 import org.apache.http.HttpException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +21,7 @@ import cn.wwj.dao.StatisticalDao;
 import cn.wwj.dao.SupplierDao;
 import cn.wwj.po.Elec;
 import cn.wwj.po.Offer;
+import cn.wwj.po.Statistical;
 import cn.wwj.po.Supplier;
 import cn.wwj.util.Tools;
 import cn.wwj.vo.IndexVo;
@@ -195,6 +199,35 @@ public class OfferServiceImpl implements OfferService {
 	public Integer editMoney(Offer vo) {
 		Integer count = offerDao.edit(vo);
 		return count;
+	}
+
+	@Override
+	public String allStatistical(IndexVo vo) {
+		
+	    List<Map<String,Object>> listRes = new ArrayList<Map<String,Object>>();
+		List<Statistical> list = statisticalDao.findAll(vo);
+		List<String> dateList = statisticalDao.findDate(vo);
+		
+		for(String s : dateList){
+			Map<String, Object> map = new HashMap<String,Object>();
+			map.put("createDate", s.substring(0,s.length()-2) );
+			for(Statistical sta :list){
+				if(sta.getCreateDate().equals(s.substring(0,s.length()-2))){
+					if(sta.getOffer().getsId()==1){
+						//京东
+						map.put("jingdong", sta.getMoney());
+					}else if(sta.getOffer().getsId()==2){
+						//国美
+						map.put("guomei", sta.getMoney());
+					}else if(sta.getOffer().getsId()==3){
+						//苏宁
+						map.put("suning", sta.getMoney());
+					}
+				}
+			}
+			listRes.add(map);
+		}
+		return JSONArray.fromObject(listRes).toString();
 	}
 	
 	
